@@ -1,0 +1,12 @@
+<form [formGroup]="airplaneEditForm">
+  <div class="form-group">
+    <label for="modelo">Modelo</label>
+    <input id="modelo" class="form-control" type="text" formControlName="modelo">
+  </div>
+  <div class="form-group">
+    <label for="qtdPassageiros">Quantidade de passageiros:</label>
+    <input id="qtdPassageiros" class="form-control" type="number" formControlName="qtdPassageiros">
+  </div>
+  <button class="btn btn-outline-success" (click)="Salvar()">Salvar</button>
+  <button class="btn btn-outline-primary ml-3" [routerLink]="['']">Voltar</button>
+</form>

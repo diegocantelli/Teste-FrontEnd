@@ -25,12 +25,17 @@
         <td>{{airplane.modelo}}</td>
         <td>{{airplane.qtdPassageiros}}</td>
         <td>{{airplane.dataCriacaoRegistro | date:'dd/MM/yyyy'}}</td>
-        <td><button (click)="openModal(modalEdit, airplane.id)" class="btn btn-outline-info">Editar</button></td>
+        <td><button [routerLink]="['/airplane', airplane.id]" class="btn btn-outline-info">
+            Editar
+          </button>
+        </td>
         <td><button (click)="openModal(modalDelete, airplane.id)" class="btn btn-outline-danger">Deletar</button></td>
       </tr>
     </tbody>
   </table>
 </div>
+
+
 
 
 <ng-template #modalEdit>
