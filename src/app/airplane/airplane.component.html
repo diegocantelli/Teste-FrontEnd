@@ -1,0 +1,34 @@
+<div class="container">
+  <form [formGroup]="airplaneForm">
+    <div class="form-group">
+      <label for="modelo">Modelo</label>
+      <input id="modelo" class="form-control" type="text" formControlName="modelo">
+    </div>
+    <div class="form-group">
+      <label for="qtdPassageiros">Quantidade de passageiros:</label>
+      <input id="qtdPassageiros" class="form-control" type="number" formControlName="qtdPassageiros">
+    </div>
+    <button class="btn btn-outline-success" (click)="Salvar()">Salvar</button>
+  </form>
+  <app-modal-airplane></app-modal-airplane>
+  <table>
+    <thead>
+      <th>Id</th>
+      <th>Modelo</th>
+      <th>Quantidade de passageiros</th>
+      <th>Data de criação do registro</th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let airplane of airplanes">
+        <td>{{airplane.id}}</td>
+        <td>{{airplane.modelo}}</td>
+        <td>{{airplane.qtdPassageiros}}</td>
+        <td>{{airplane.dataCriacaoRegistro | date:'dd/MM/yyyy'}}</td>
+        <td><a href="#">Editar</a></td>
+        <td><a href="#">Deletar</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
