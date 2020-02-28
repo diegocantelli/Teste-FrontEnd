@@ -24,4 +24,8 @@ export class AirplaneService {
   public Post(airplane: IAirplane): Observable<any> {
     return this.http.post<any>(this.urlBase, airplane);
   }
+
+  public Delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.urlBase}/${id}`);
+  }
 }

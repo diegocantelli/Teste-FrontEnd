@@ -18,6 +18,7 @@ export class AirplaneComponent implements OnInit, OnDestroy {
   airplanes: IAirplane[];
   subscription: Subscription;
   modalRef: BsModalRef;
+  airplaneIdDelete = 0;
 
   constructor(private fb: FormBuilder,
     private service: AirplaneService,
@@ -62,8 +63,21 @@ export class AirplaneComponent implements OnInit, OnDestroy {
     //console.log(this.airplaneForm.get('modelo').value);
   }
 
+  Deletar() {
+    this.service.Delete(this.airplaneIdDelete)
+      .subscribe(() => {
+        this.service.Get()
+          .subscribe((airplanes: IAirplane[]) => {
+            this.airplanes = airplanes;
+            this.modalRef.hide();
+          })
+        this.airplaneIdDelete = 0;
+
+      });
+  }
+
   openModal(template: TemplateRef<any>, id: number) {
-    console.log(id);
+    this.airplaneIdDelete = id;
     this.modalRef = this.modalService.show(template);
   }
 
