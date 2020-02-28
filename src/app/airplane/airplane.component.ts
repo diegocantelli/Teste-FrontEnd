@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { IAirplane } from './models/airplane.model';
 import { AirplaneService } from '../airplane.service';
@@ -17,8 +17,11 @@ export class AirplaneComponent implements OnInit, OnDestroy {
   airplaneForm: FormGroup;
   airplanes: IAirplane[];
   subscription: Subscription;
+  modalRef: BsModalRef;
 
-  constructor(private fb: FormBuilder, private service: AirplaneService) { }
+  constructor(private fb: FormBuilder,
+    private service: AirplaneService,
+    private modalService: BsModalService) { }
 
   ngOnInit() {
     this.airplaneForm = this.fb.group({
@@ -57,6 +60,11 @@ export class AirplaneComponent implements OnInit, OnDestroy {
     },
       erro => console.log(erro));
     //console.log(this.airplaneForm.get('modelo').value);
+  }
+
+  openModal(template: TemplateRef<any>, id: number) {
+    console.log(id);
+    this.modalRef = this.modalService.show(template);
   }
 
 }

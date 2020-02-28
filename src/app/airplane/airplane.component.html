@@ -10,7 +10,6 @@
     </div>
     <button class="btn btn-outline-success" (click)="Salvar()">Salvar</button>
   </form>
-  <app-modal-airplane></app-modal-airplane>
   <table>
     <thead>
       <th>Id</th>
@@ -21,14 +20,43 @@
       <th></th>
     </thead>
     <tbody>
-      <tr *ngFor="let airplane of airplanes">
+      <tr id={{airplane.id}} *ngFor="let airplane of airplanes;">
         <td>{{airplane.id}}</td>
         <td>{{airplane.modelo}}</td>
         <td>{{airplane.qtdPassageiros}}</td>
         <td>{{airplane.dataCriacaoRegistro | date:'dd/MM/yyyy'}}</td>
-        <td><a href="#">Editar</a></td>
-        <td><a href="#">Deletar</a></td>
+        <td><button (click)="openModal(modalEdit, airplane.id)" class="btn btn-outline-info">Editar</button></td>
+        <td><button (click)="openModal(modalDelete, airplane.id)" class="btn btn-outline-danger">Deletar</button></td>
       </tr>
     </tbody>
   </table>
 </div>
+
+
+<ng-template #modalEdit>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Editar</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    This is a modal.
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" (click)="Editar()">Salvar</button>
+  </div>
+</ng-template>
+
+
+<ng-template #modalDelete>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Deletar</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    This is a modal.
+  </div>
+</ng-template>
