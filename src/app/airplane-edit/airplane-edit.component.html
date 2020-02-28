@@ -1,17 +1,21 @@
 <div class="card mt-5">
-  <div class="card-header">Alterar aeronaves</div>
+  <div class="card-header">
+    <h5 class="card-title">Alterar aeronaves</h5>
+  </div>
   <div class="card-body">
     <form [formGroup]="airplaneEditForm">
       <div class="form-group">
         <label for="modelo">Modelo</label>
         <input id="modelo" class="form-control" type="text" formControlName="modelo">
+        <span *ngIf="formFieldIsValid('modelo')"><small class="text-danger">Campo obrigatório</small></span>
       </div>
       <div class="form-group">
         <label for="qtdPassageiros">Quantidade de passageiros:</label>
         <input id="qtdPassageiros" class="form-control" type="number" formControlName="qtdPassageiros">
+        <span *ngIf="formFieldIsValid('qtdPassageiros')"><small class="text-danger">Campo obrigatório</small></span>
       </div>
-      <button class="btn btn-outline-success" (click)="Salvar()">Salvar</button>
-      <button class="btn btn-outline-primary ml-3" [routerLink]="['']">Voltar</button>
+      <button [disabled]="this.airplaneEditForm.invalid" class="btn btn-success" (click)="Salvar()">Salvar</button>
+      <button class="btn btn-primary ml-3" [routerLink]="['']">Voltar</button>
     </form>
   </div>
 </div>

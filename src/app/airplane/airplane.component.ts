@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { IAirplane } from './models/airplane.model';
 import { AirplaneService } from '../airplane.service';
+import { FormValidatorService } from './shared/formvalidator.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class AirplaneComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder,
     private service: AirplaneService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+    private formValidatorService: FormValidatorService) { }
 
   ngOnInit() {
     this.airplaneForm = this.fb.group({
@@ -36,6 +38,15 @@ export class AirplaneComponent implements OnInit, OnDestroy {
       },
         (erro: Error) => console.log(erro)
       );
+  }
+
+  private getFormField(field: string) {
+    return this.airplaneForm.get(field);
+  }
+
+
+  formFieldIsValid(field: string): boolean {
+    return this.formValidatorService.formFieldIsValid(this.airplaneForm, field);
   }
 
   ngOnDestroy(): void {
@@ -52,6 +63,7 @@ export class AirplaneComponent implements OnInit, OnDestroy {
     };
 
     this.service.Post(postAirplane).subscribe(() => {
+      this.LimparTexts();
       this.subscription = this.service.Get()
         .subscribe((airplanes: IAirplane[]) => {
           this.airplanes = airplanes;
@@ -60,7 +72,6 @@ export class AirplaneComponent implements OnInit, OnDestroy {
         );
     },
       erro => console.log(erro));
-    //console.log(this.airplaneForm.get('modelo').value);
   }
 
   Deletar() {
@@ -74,6 +85,10 @@ export class AirplaneComponent implements OnInit, OnDestroy {
         this.airplaneIdDelete = 0;
 
       });
+  }
+
+  private LimparTexts(): void {
+    this.airplaneForm.reset();
   }
 
   openModal(template: TemplateRef<any>, id: number) {

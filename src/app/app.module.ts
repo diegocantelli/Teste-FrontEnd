@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalAirplaneComponent } from './modal-airplane/modal-airplane.component';
 import { AirplaneEditComponent } from './airplane-edit/airplane-edit.component';
+import { FormValidatorService } from './airplane/shared/formvalidator.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { AirplaneEditComponent } from './airplane-edit/airplane-edit.component';
     ]),
     ModalModule.forRoot()
   ],
-  providers: [AirplaneService, BsModalRef],
+  providers: [AirplaneService, FormValidatorService, BsModalRef],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,9 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AirplaneService } from '../airplane.service';
 import { IAirplane } from '../airplane/models/airplane.model';
 import { error } from 'util';
+import { FormValidatorService } from '../airplane/shared/formvalidator.service';
 
 @Component({
   selector: 'app-airplane-edit',
@@ -17,14 +18,15 @@ export class AirplaneEditComponent implements OnInit {
   airplane: IAirplane;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute,
-    private service: AirplaneService, private router: Router) { }
+    private service: AirplaneService, private router: Router,
+    private formValidatorService: FormValidatorService) { }
 
   ngOnInit() {
     //refatorar ngOnInit
 
     this.airplaneEditForm = this.fb.group({
-      modelo: [''],
-      qtdPassageiros: [0]
+      modelo: ['', Validators.required],
+      qtdPassageiros: [0, Validators.required]
     })
 
     let id = +this.route.snapshot.paramMap.get('id');
@@ -50,5 +52,9 @@ export class AirplaneEditComponent implements OnInit {
 
     this.service.Post(airplane)
       .subscribe(() => console.log('Editado com sucesso!'));
+  }
+
+  formFieldIsValid(field: string): boolean {
+    return this.formValidatorService.formFieldIsValid(this.airplaneEditForm, field);
   }
 }
