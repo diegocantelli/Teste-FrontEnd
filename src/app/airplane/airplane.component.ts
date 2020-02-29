@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -31,17 +31,16 @@ export class AirplaneComponent implements OnInit, OnDestroy {
       modelo: ['', Validators.required],
       qtdPassageiros: ['', [Validators.required]]
     });
+    this.subscription = this.GetAll();
+  }
 
-    this.subscription = this.service.Get()
+  private GetAll(): Subscription {
+    return this.service.Get()
       .subscribe((airplanes: IAirplane[]) => {
         this.airplanes = airplanes;
       },
         (erro: Error) => console.log(erro)
       );
-  }
-
-  private getFormField(field: string) {
-    return this.airplaneForm.get(field);
   }
 
 
@@ -85,6 +84,12 @@ export class AirplaneComponent implements OnInit, OnDestroy {
         this.airplaneIdDelete = 0;
 
       });
+  }
+
+  Filtrar(valor: string): void {
+    if (valor) {
+      //busca por modelo
+    }
   }
 
   private LimparTexts(): void {
