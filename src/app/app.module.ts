@@ -11,13 +11,15 @@ import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalAirplaneComponent } from './modal-airplane/modal-airplane.component';
 import { AirplaneEditComponent } from './airplane-edit/airplane-edit.component';
 import { FormValidatorService } from './airplane/shared/formvalidator.service';
+import { AirplaneListComponent } from './airplane/airplane-list/airplane-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AirplaneComponent,
     ModalAirplaneComponent,
-    AirplaneEditComponent
+    AirplaneEditComponent,
+    AirplaneListComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { FormValidatorService } from './airplane/shared/formvalidator.service';
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot([
+
       { path: '', component: AirplaneComponent },
       { path: 'airplane/:id', component: AirplaneEditComponent }
     ]),

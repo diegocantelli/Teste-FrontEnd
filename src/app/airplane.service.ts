@@ -21,6 +21,11 @@ export class AirplaneService {
     return this.http.get<IAirplane>(`${this.urlBase}/${id}`);
   }
 
+  public GetByModelo(modelo: string): Observable<IAirplane[]> {
+    return this.http.get<IAirplane[]>(`${this.urlBase}/modelo/${modelo}`);
+  }
+
+
   public Post(airplane: IAirplane): Observable<any> {
     return this.http.post<any>(this.urlBase, airplane);
   }

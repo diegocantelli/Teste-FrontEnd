@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Subscription, Observable } from 'rxjs';
-
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Subscription } from 'rxjs';
 
 import { IAirplane } from './models/airplane.model';
 import { AirplaneService } from '../airplane.service';
 import { FormValidatorService } from './shared/formvalidator.service';
+import { AirplaneListComponent } from './airplane-list/airplane-list.component';
 
 
 @Component({
@@ -15,15 +14,17 @@ import { FormValidatorService } from './shared/formvalidator.service';
   styleUrls: ['./airplane.component.css']
 })
 export class AirplaneComponent implements OnInit, OnDestroy {
+
   airplaneForm: FormGroup;
   airplanes: IAirplane[];
   subscription: Subscription;
-  modalRef: BsModalRef;
   airplaneIdDelete = 0;
+  valorFiltro = '';
+  @ViewChild(AirplaneListComponent, { static: false }) airplaneListComponent: AirplaneListComponent;
+
 
   constructor(private fb: FormBuilder,
     private service: AirplaneService,
-    private modalService: BsModalService,
     private formValidatorService: FormValidatorService) { }
 
   ngOnInit() {
@@ -31,16 +32,11 @@ export class AirplaneComponent implements OnInit, OnDestroy {
       modelo: ['', Validators.required],
       qtdPassageiros: ['', [Validators.required]]
     });
-    this.subscription = this.GetAll();
   }
 
-  private GetAll(): Subscription {
-    return this.service.Get()
-      .subscribe((airplanes: IAirplane[]) => {
-        this.airplanes = airplanes;
-      },
-        (erro: Error) => console.log(erro)
-      );
+  ngOnDestroy(): void {
+    if (this.subscription)
+      this.subscription.unsubscribe();
   }
 
 
@@ -48,57 +44,30 @@ export class AirplaneComponent implements OnInit, OnDestroy {
     return this.formValidatorService.formFieldIsValid(this.airplaneForm, field);
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 
-  Salvar(): void {
-
-    let postAirplane: IAirplane = {
+  private NewAirplane(): IAirplane {
+    return {
       id: 0,
       modelo: this.airplaneForm.get('modelo').value,
       qtdPassageiros: this.airplaneForm.get('qtdPassageiros').value,
       dataCriacaoRegistro: new Date()
     };
+  }
 
-    this.service.Post(postAirplane).subscribe(() => {
+  Salvar(): void {
+    this.service.Post(this.NewAirplane()).subscribe(() => {
       this.LimparTexts();
-      this.subscription = this.service.Get()
-        .subscribe((airplanes: IAirplane[]) => {
-          this.airplanes = airplanes;
-        },
-          (erro: Error) => console.log(erro)
-        );
+      this.subscription = this.airplaneListComponent.GetAll();
     },
       erro => console.log(erro));
   }
 
-  Deletar() {
-    this.service.Delete(this.airplaneIdDelete)
-      .subscribe(() => {
-        this.service.Get()
-          .subscribe((airplanes: IAirplane[]) => {
-            this.airplanes = airplanes;
-            this.modalRef.hide();
-          })
-        this.airplaneIdDelete = 0;
-
-      });
-  }
-
-  Filtrar(valor: string): void {
-    if (valor) {
-      //busca por modelo
-    }
+  Filtrar(value: string) {
+    console.log('valor filtro', value);
   }
 
   private LimparTexts(): void {
     this.airplaneForm.reset();
-  }
-
-  openModal(template: TemplateRef<any>, id: number) {
-    this.airplaneIdDelete = id;
-    this.modalRef = this.modalService.show(template);
   }
 
 }
