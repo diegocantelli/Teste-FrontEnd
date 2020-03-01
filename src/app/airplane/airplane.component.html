@@ -16,11 +16,9 @@
           <span *ngIf="formFieldIsValid('qtdPassageiros')"><small class="text-danger">Campo obrigatório</small></span>
         </div>
       </div>
-
       <div class="row">
         <label for="filterAiplane" class="col-md-4">Filtrar por modelo</label>
       </div>
-
       <div class="row mb-3">
         <div class="form-group col-md-6">
           <div class="input-group">
@@ -32,7 +30,6 @@
           </div>
         </div>
       </div>
-
       <button class="btn btn-success" (click)="Salvar()" [disabled]="this.airplaneForm.invalid">Salvar
       </button>
     </form>

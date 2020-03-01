@@ -8,16 +8,17 @@
     <th></th>
   </thead>
   <tbody>
-    <tr id={{airplane.id}} *ngFor="let airplane of airplanes;">
-      <td>{{airplane.id}}</td>
-      <td>{{airplane.modelo}}</td>
-      <td>{{airplane.qtdPassageiros}}</td>
-      <td>{{airplane.dataCriacaoRegistro | date:'dd/MM/yyyy'}}</td>
-      <td><button [routerLink]="['/airplane', airplane.id]" class="btn btn-outline-info">
+    <tr id={{airplane.modeloId}} *ngFor="let airplane of airplanes;">
+      <td>{{airplane.modeloId}}</td>
+      <td>{{airplane.modeloAirplane}}</td>
+      <td>{{airplane.qtdPassengers}}</td>
+      <td>{{airplane.dateCreated | date:'dd/MM/yyyy'}}</td>
+      <td><button [routerLink]="['/airplane', airplane.modeloId]" class="btn btn-outline-info">
           Editar
         </button>
       </td>
-      <td><button (click)="openModal(modalDelete, airplane.id)" class="btn btn-outline-danger">Deletar</button></td>
+      <td><button (click)="openModal(modalDelete, airplane.modeloId)" class="btn btn-outline-danger">Deletar</button>
+      </td>
     </tr>
   </tbody>
 </table>

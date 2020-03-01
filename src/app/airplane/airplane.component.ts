@@ -63,7 +63,11 @@ export class AirplaneComponent implements OnInit, OnDestroy {
   }
 
   Filtrar(value: string) {
-    console.log('valor filtro', value);
+    if (value) {
+      this.airplaneListComponent.getByModelo(value);
+    } else {
+      this.airplaneListComponent.GetAll();
+    }
   }
 
   private LimparTexts(): void {

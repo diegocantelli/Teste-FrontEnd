@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, AfterViewInit, TemplateRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, OnDestroy } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { IAirplane } from '../models/airplane.model';
 import { AirplaneService } from 'src/app/airplane.service';
 import { Subscription } from 'rxjs';
+import { AirplaneDTO } from '../models/airplaneDTO.model';
 
 @Component({
   selector: 'app-airplane-list',
@@ -17,7 +18,7 @@ export class AirplaneListComponent implements OnInit, OnDestroy {
   airplaneIdDelete = 0;
 
   @Input() filterInput: string;
-  @Input() airplanes: IAirplane[];
+  @Input() airplanes: AirplaneDTO[];
 
   constructor(private service: AirplaneService,
     private modalService: BsModalService) { }
@@ -45,14 +46,14 @@ export class AirplaneListComponent implements OnInit, OnDestroy {
 
   getByModelo(valor: string) {
     return this.service.GetByModelo(valor)
-      .subscribe((airplanes: IAirplane[]) => {
+      .subscribe((airplanes: AirplaneDTO[]) => {
         this.airplanes = airplanes;
       });
   }
 
   GetAll(): Subscription {
     return this.service.Get()
-      .subscribe((airplanes: IAirplane[]) => {
+      .subscribe((airplanes: AirplaneDTO[]) => {
         this.airplanes = airplanes;
       },
         (erro: Error) => console.log(erro)
